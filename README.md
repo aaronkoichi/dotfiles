@@ -1,6 +1,7 @@
 # dotfiles
 
 Here is how I would usually setup my new Ubuntu system from scratch. Here is what i would typically install
+ - Install Wezterm and configure it to only run Ubuntu.
  - Install Homebrew
   - Install libmd-dev, libbsd0 & libbsd-dev (based on ubuntu release)
 - Install gcc, and man-db from Homebrew
