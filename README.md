@@ -5,7 +5,7 @@ Here is how I would usually setup my new Ubuntu system from scratch. Here is wha
  - Install Homebrew
   - Install libmd-dev, libbsd0 & libbsd-dev (based on ubuntu release)
 - Install gcc, and man-db from Homebrew
-- Setup oh-my-zsh.
+- Install zsh and Setup oh-my-zsh.
  - Setup pipx.
  - Setup NVM for zsh.
   - Lastly, clone nvim config.
