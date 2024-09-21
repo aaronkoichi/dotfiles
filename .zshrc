@@ -131,10 +131,10 @@ fi
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # pipx path addition
-export PATH="$PATH:/home/koichi/.local/bin"
+export PATH="$PATH:/home/$USER/.local/bin"
 
 # ghcup environment
-[ -f "/home/koichi/.ghcup/env" ] && source "/home/koichi/.ghcup/env"
+[ -f "/home/$USER/.ghcup/env" ] && source "/home/$USER/.ghcup/env"
 
 # NVM (Node Version Manager) configuration
 export NVM_DIR="$HOME/.nvm"
