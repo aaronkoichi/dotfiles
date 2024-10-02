@@ -55,7 +55,7 @@ export NVM_DIR="$HOME/.nvm"
 Rest of the dotfiles will be on the repo.
 
 ## Dotfiles for BSPWM coming soon
-pulseaudio, picom (from git), dmenu, xdotool, cpu-autofreq, polybar and more.....
+pulseaudio, picom (from git), dmenu, xdotool, brightnessctl, auto-cpufreq, polybar, rofi, nitrogen, and more.....
 
 
 
