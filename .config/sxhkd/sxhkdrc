@@ -11,8 +11,7 @@ super + space
 	dmenu_run
 
 super + alt + p
-	sh ~/.config/shellscript/rofi-wifi-menu.sh
-
+	wifimenu
 
 alt + space
 	rofi -show drun

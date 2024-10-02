@@ -2,7 +2,7 @@
 
 $HOME/.config/polybar/launch.sh &
 xsetroot -cursor_name left_ptr &
-# picom -fb --config $HOME/.config/picom/picom.conf &
+picom --config $HOME/.config/picom/picom.conf &
 setxkbmap us &
 nitrogen --restore &
 pgrep -x sxhkd > /dev/null || sxhkd &
