@@ -1,10 +1,10 @@
 #! /bin/sh 
 
 $HOME/.config/polybar/launch.sh &
-xsetroot -cursor_name left_ptr &
-pkill picom &
-picom --experimental-backends --config $HOME/.config/picom/picom.conf  &
 setxkbmap us &
+fcitx5 &
+xsetroot -cursor_name left_ptr &
+picom --config $HOME/.config/picom/picom.conf  &
 nitrogen --restore &
 pgrep -x sxhkd > /dev/null || sxhkd &
 bspwm &
@@ -26,3 +26,7 @@ bspc rule -a mplayer2 state=floating
 bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
 
+if command -v gnome-keyring-daemon >/dev/null 2>&1; then
+    eval $(gnome-keyring-daemon --start)
+    export SSH_AUTH_SOCK
+fi

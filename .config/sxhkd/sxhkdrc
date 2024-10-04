@@ -7,8 +7,8 @@ super + Return
 	wezterm
 
 # program launcher
-super + space
-	dmenu_run
+#ctrl + super + space
+#	{setxkbmap cn, setxkbmap us}
 
 super + alt + p
 	wifimenu
@@ -142,3 +142,6 @@ XF86MonBrightnessUp
 
 XF86MonBrightnessDown
 	brightnessctl set 1000-
+
+@Print
+	scrot -s --line mode=edge ~/Pictures/Screenshots/%Y-%m%d_%H%M%S-$wx$h_scrot.png
