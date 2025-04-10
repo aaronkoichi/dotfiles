@@ -1,142 +1,67 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+# ~/.zshrc
 
-# Path to your Oh My Zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
+# Enable prompt substitution (so command substitutions in PROMPT are updated)
+setopt PROMPT_SUBST
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time Oh My Zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+# Initialize the completion system for enhanced tab completion
+autoload -Uz compinit && compinit
 
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+# Load the module that supports interactive, highlighted completion menus
+# (Remove the -U flag if your shell complains)
+zmodload zsh/complist
 
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+# Enable interactive menu selection for completions.
+# When multiple completions are available, you can navigate them.
+zstyle ':completion:*' menu select
 
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+# Load color definitions for use in the prompt
+autoload -Uz colors && colors
 
-# Uncomment one of the following lines to change the auto-update behavior
-# zstyle ':omz:update' mode disabled  # disable automatic updates
-# zstyle ':omz:update' mode auto      # update automatically without asking
-# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+prompt_git() {
+  # Check if inside a Git repository.
+  if ! git rev-parse --is-inside-work-tree &>/dev/null; then
+    return
+  fi
 
-# Uncomment the following line to change how often to auto-update (in days).
-# zstyle ':omz:update' frequency 13
+  # Get the current branch name.
+  local branch
+  branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+  [ -z "$branch" ] && return
 
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
+  # Check repository status. If there is any output from git status --porcelain,
+  # it means there are uncommitted changes.
+  if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
+	  echo "(❌${branch})🌲 "
+  else
+    echo "(${branch})🌲 "
+  fi
+}
 
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
+minimal_dir() {
+  echo "${PWD/#$HOME/~}"
+}
 
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
+PROMPT='%{$fg_bold[blue]%}[ $(minimal_dir) ] %{$fg[yellow]%}$(prompt_git)%{$reset_color%}
+%{$fg_bold[cyan]%}💀 👉 %{$reset_color%} '
+RPROMPT='%{$fg[green]%}%D{%B %-d,%l.%M%P (%Y)}%{$reset_color%}'
+#History configuration
+HISTFILE=~/.zsh_history
+HISTSIZE=1000
+SAVEHIST=1000
 
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+alias ll='ls -la'
+alias compile="cc -Wall -Wextra -Werror"
 
-# Uncomment the following line to display red dots whilst waiting for completion.
-# You can also set it to another string to have that shown instead of the default red dots.
-# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
-# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
-
-source $ZSH/oh-my-zsh.sh
-
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='nvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch $(uname -m)"
-
-# Set personal aliases, overriding those provided by Oh My Zsh libs,
-# plugins, and themes. Aliases can be placed here, though Oh My Zsh
-# users are encouraged to define aliases within a top-level file in
-# the $ZSH_CUSTOM folder, with .zsh extension. Examples:
-# - $ZSH_CUSTOM/aliases.zsh
-# - $ZSH_CUSTOM/macos.zsh
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-# Homebrew GCC configuration
-# Homebrew configuration
-if [ -x "/home/linuxbrew/.linuxbrew/bin/brew" ]; then
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-elif [ -x "$HOME/.linuxbrew/bin/brew" ]; then
-    eval "$($HOME/.linuxbrew/bin/brew shellenv)"
-else
-    echo "Homebrew not found. Please check your installation."
-fi
-
-# GCC configuration (if installed via Homebrew)
-if command -v brew &>/dev/null; then
-    gcc_path="$(brew --prefix gcc 2>/dev/null)/bin"
-    if [ -d "$gcc_path" ]; then
-        export PATH="$gcc_path:$PATH"
-		alias gcc="$(brew --prefix gcc)/bin/gcc-14"
-		alias cc="$(brew --prefix gcc)/bin/gcc-14"
-    else
-        echo "GCC installation not found via Homebrew. Please install GCC using Homebrew."
-    fi
-else
-    echo "Homebrew not found in PATH. GCC configuration skipped."
-fi
-
-# ... (rest of your previous configuration)
-# Homebrew shell environment (only need to run once)
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
-# pipx path addition
-export PATH="$PATH:/home/$USER/.local/bin"
-
-# ghcup environment
-[ -f "/home/$USER/.ghcup/env" ] && source "/home/$USER/.ghcup/env"
-
-# NVM (Node Version Manager) configuration
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export PATH="$PATH:/home/zlee/.cargo/bin"
+
+lg() {
+  ~/lazygit/lazygit
+}
+
+# Created by `pipx` on 2025-01-24 14:29:36
+export PATH="$PATH:/home/koichi/.local/bin"
+eval "$(zoxide init zsh)"
+alias clip="xclip -selection clipboard"
